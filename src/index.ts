@@ -1,4 +1,5 @@
-import { Point, drawPointRect, clearCanvas } from "./utils";
+import { drawPointRect, clearCanvas, deJongAttractor } from "./utils";
+import { DeJongParameters, Point } from "./types";
 
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
@@ -11,7 +12,7 @@ const animate = false;
 const nPoints = 100000;
 
 // deJong attractor parameters
-const parameters = {
+const parameters: DeJongParameters = {
   a: -3.6,
   b: 1.3,
   c: 1.38,
@@ -21,9 +22,9 @@ const parameters = {
 const scale = 200;
 const thickness = 0.5;
 
-canvas.style.background = "black";
-ctx.fillStyle = "#EFEFEF";
-ctx.strokeStyle = "#EFEFEF";
+canvas.style.background = "white";
+ctx.fillStyle = "black";
+ctx.strokeStyle = "black";
 
 // ---------------------------------------------------------------
 
@@ -32,7 +33,7 @@ ctx.translate(canvas.width / 2, canvas.height / 2);
 if (!animate) {
   drawAttractor();
 } else {
-  function step(timestamp: number) {
+  function step() {
     clearCanvas(ctx, canvas);
     drawAttractor();
 
@@ -44,7 +45,8 @@ if (!animate) {
 }
 
 function drawAttractor() {
-  let previousPoint = { x: 1, y: 1 } as Point;
+  // starting point position is basically irrelevant
+  let previousPoint = { x: 0, y: 0 } as Point;
 
   for (let n = 0; n < nPoints; n++) {
     const nextPoint = deJongAttractor(previousPoint, parameters);
@@ -55,18 +57,4 @@ function drawAttractor() {
 
     previousPoint = nextPoint;
   }
-}
-
-interface DeJongParameters {
-  a: number;
-  b: number;
-  c: number;
-  d: number;
-}
-
-function deJongAttractor(p: Point, parameters: DeJongParameters): Point {
-  return {
-    x: Math.sin(parameters.a * p.y) - Math.cos(parameters.b * p.x),
-    y: Math.sin(parameters.c * p.x) - Math.cos(parameters.d * p.y),
-  };
 }

@@ -1,7 +1,11 @@
-export type Point = {
-  x: number;
-  y: number;
-};
+import { Point, DeJongParameters } from "./types";
+
+export function deJongAttractor(p: Point, parameters: DeJongParameters): Point {
+  return {
+    x: Math.sin(parameters.a * p.y) - Math.cos(parameters.b * p.x),
+    y: Math.sin(parameters.c * p.x) - Math.cos(parameters.d * p.y),
+  };
+}
 
 export function drawPointRect(
   ctx: CanvasRenderingContext2D,
