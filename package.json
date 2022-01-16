@@ -1,0 +1,13 @@
+{
+  "name": "ga-strange-attractor-flow-fields",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild ./src/index.ts --bundle --outfile=./dist/index.js",
+    "watch": "esbuild ./src/index.ts --bundle --outfile=./dist/index.js --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "esbuild": "^0.14.11"
+  }
+}
