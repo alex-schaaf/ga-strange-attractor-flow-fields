@@ -8,13 +8,15 @@ document.body.appendChild(canvas);
 
 // ---------------------------------------------------------------
 const animate = false;
-const nPoints = 40000;
+const nPoints = 100000;
 
 // deJong attractor parameters
-let a = -3.32;
-let b = 1;
-let c = 1.38;
-let d = -1.5;
+const parameters = {
+  a: -3.6,
+  b: 1.3,
+  c: 1.38,
+  d: -1.5,
+};
 
 const scale = 200;
 const thickness = 0.5;
@@ -34,7 +36,7 @@ if (!animate) {
     clearCanvas(ctx, canvas);
     drawAttractor();
 
-    b -= 0.0035;
+    parameters.b -= 0.0035;
 
     window.requestAnimationFrame(step);
   }
@@ -45,15 +47,26 @@ function drawAttractor() {
   let previousPoint = { x: 1, y: 1 } as Point;
 
   for (let n = 0; n < nPoints; n++) {
-    const point = {
-      x: Math.sin(a * previousPoint.y) - Math.cos(b * previousPoint.x),
-      y: Math.sin(c * previousPoint.x) - Math.cos(d * previousPoint.y),
-    } as Point;
+    const nextPoint = deJongAttractor(previousPoint, parameters);
 
-    ctx.moveTo(point.x * scale, point.y * scale);
+    ctx.moveTo(nextPoint.x * scale, nextPoint.y * scale);
 
-    drawPointRect(ctx, point, scale, thickness);
+    drawPointRect(ctx, nextPoint, scale, thickness);
 
-    previousPoint = point;
+    previousPoint = nextPoint;
   }
+}
+
+interface DeJongParameters {
+  a: number;
+  b: number;
+  c: number;
+  d: number;
+}
+
+function deJongAttractor(p: Point, parameters: DeJongParameters): Point {
+  return {
+    x: Math.sin(parameters.a * p.y) - Math.cos(parameters.b * p.x),
+    y: Math.sin(parameters.c * p.x) - Math.cos(parameters.d * p.y),
+  };
 }
