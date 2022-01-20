@@ -9,12 +9,12 @@ document.body.appendChild(canvas);
 
 // ---------------------------------------------------------------
 const animate = false;
-const nPoints = 100000;
+const nPoints = 150000;
 
 // deJong attractor parameters
 const parameters: DeJongParameters = {
   a: -3.6,
-  b: 1.3,
+  b: 1.34,
   c: 1.38,
   d: -1.5,
 };
